@@ -5,32 +5,32 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Vui lòng cung cấp tên"],
         trim: true,
+        minlength: [2,"Tên phải có ít nhất 2 kí tự"],
+        maxlength: [100,"Tên không được quá 100 kí tự"],
     },
     email: {
         type: String,
         required: [true, "Vui lòng cung cấp email"],
         unique: true,
         lowercase: true,
+        trim: true,
         match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Vui lòng cung cấp địa chỉ email hợp lệ"],
     },
     password: {
         type: String,
         required: [true, "Vui lòng cung cấp mật khẩu"],
         minlength: [6, "Mật khẩu phải có ít nhất 6 ký tự"],
-        select: false, //ko trả về password trong query
+        select: false, //ko trả về khi query
     },
     passwordChangeAt: Date,
     role:{
         type:String,
-        enum:["customer","staff","admin"],
-        default:"customer",
+        enum:["user","admin"],
+        default:"user",
     },
     phone:{
         type:String,
-        validate:{
-            validator:(v)=>/^\d{10}$/.test(v),
-            message: (props) => `${props.value} không phải là số điện thoại hợp lệ!`,
-        },
+        match: [/^[0-9]{10,11}$/, 'Số điện thoại không hợp lệ']
     },
     addresses:[
         {
@@ -42,13 +42,34 @@ const userSchema = new mongoose.Schema({
             },
         },
     ],
-    avatar:String,
+    avatar:{
+        type: String,
+        default: "default-avatar.jpg"
+    },
     active:{
-        type:String,
+        type:Boolean,
         default:true,
         select:false,
     },
-}, { timestamps: true, versionKey: false });
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
+}, { timestamps: true, 
+    versionKey: false,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
+});
+
+userSchema.virtual('bookings',{
+    ref: "Booking",
+    localField: "_id",
+    foreignField: "user"
+});
 
 const User = mongoose.model('User', userSchema);
 
