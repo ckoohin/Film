@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "\"# Film\"",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
@@ -24,5 +24,13 @@
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.5",
     "nodemon": "^3.1.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckoohin/Film.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ckoohin/Film/issues"
+  },
+  "homepage": "https://github.com/ckoohin/Film#readme"
 }
