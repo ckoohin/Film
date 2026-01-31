@@ -20,7 +20,7 @@ const movieSchema = mongoose.Schema({
     }, 
     duration:{
         type: Number,
-        required: [true, "Vui lognf nhập thời lượng phim"],
+        required: [true, "Vui lòng nhập thời lượng phim"],
         min: [1,"Thời lượng phải lớn hơn 0"]
     }, 
     genre:{
