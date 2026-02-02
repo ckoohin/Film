@@ -49,9 +49,9 @@ const movieSchema = mongoose.Schema({
     }, 
     cast:{
         type:[String],
-        require: [true, "Vui lòng nhập danh sách diễn viên"]
+        required: [true, "Vui lòng nhập danh sách diễn viên"]
     },
-    language:{
+    audioLanguage:{
         type: String,
         default: 'Tiếng Việt'
     },
@@ -117,8 +117,8 @@ movieSchema.virtual('showtimes',{
     foreignField: 'movie'
 });
 
-movieSchema.pre('save',function(next){
-    if(this.isModified('title')){
+movieSchema.pre('save', async function() { 
+    if (this.isModified('title') && this.title) {
         this.slug = this.title
             .toLowerCase()
             .normalize('NFD')
@@ -129,7 +129,6 @@ movieSchema.pre('save',function(next){
             .replace(/-+/g, '-')
             .trim();
     }
-    next();
 });
 const Movie = mongoose.model('Movie', movieSchema);
 
